@@ -15,6 +15,7 @@ import type {
 import { authSchemas } from '@/services/auth/schemas';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { getEvent } from 'vinxi/http';
 
 const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: 'postgresql' }),
@@ -57,16 +58,9 @@ const useInvalidateAuth = () => {
   };
 };
 
-const getAuth = createServerFn('GET', async (_, ctx): Promise<Auth> => {
-  const session = await auth.api.getSession({
-    headers: ctx.request.headers,
-  });
-  if (!session) return { isAuthenticated: false, user: null, session: null };
-  return {
-    isAuthenticated: true,
-    user: session.user,
-    session: session.session,
-  };
+const getAuth = createServerFn('GET', async (): Promise<Auth> => {
+  const event = getEvent();
+  return event.context.auth;
 });
 
 const signUpEmail = createServerFn(
