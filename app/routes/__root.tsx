@@ -50,11 +50,11 @@ window.$RefreshSig$ = () => (type) => type`,
         ]
       : [],
   beforeLoad: async ({ context }) => {
-    // Get Geolocation and parse their locale
-    // const messages = await loadLocaleData('fr');
     const auth = await context.queryClient.ensureQueryData(
       getAuthQueryOptions(),
     );
+
+    // You could also get geolocation for the locale
     const locale = await getLocale();
 
     return { auth, locale };
@@ -69,9 +69,6 @@ function RootComponent() {
   );
 }
 
-// const messagesInFrench = {
-//   header: "Aujourd'hui, nous sommes le {ts, date, ::yyyyMMdd}",
-// };
 function RootDocument({ children }: { children: ReactNode }) {
   const { locale } = useRouteContext({ from: '__root__' });
 
@@ -81,7 +78,6 @@ function RootDocument({ children }: { children: ReactNode }) {
         <Meta />
       </Head>
       <Body>
-        {/* <IntlProvider messages={messages} defaultLocale="en" locale="fr"> */}
         <I18nextProvider i18n={i18n.cloneInstance({ lng: locale })}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
@@ -89,7 +85,6 @@ function RootDocument({ children }: { children: ReactNode }) {
           <ScrollRestoration />
           <Scripts />
         </I18nextProvider>
-        {/* </IntlProvider> */}
       </Body>
     </Html>
   );

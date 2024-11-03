@@ -18,12 +18,10 @@ type SupportedLocale = keyof typeof resources;
 const supportedLocales = Object.keys(resources) as SupportedLocale[];
 
 type Locale = (typeof supportedLocales)[number];
+
 const defaultLocale: Locale = 'en';
 
-// "extract": "i18next --config i18next-parser.config.ts"
-
 const getClientLocale = (): string => {
-  if (import.meta.env.SSR) return defaultLocale;
   const userLanguage =
     'userLanguage' in navigator ? navigator.userLanguage : null;
 
