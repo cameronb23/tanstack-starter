@@ -13,7 +13,6 @@
     "allowJs": true,
     "baseUrl": ".",
     "strictNullChecks": true,
-    "noEmit": true,
     "paths": {
       "@/*": ["./app/*"]
     }
